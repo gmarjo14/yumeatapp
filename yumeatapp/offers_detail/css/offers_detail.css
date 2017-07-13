@@ -1,0 +1,205 @@
+@font-face {
+    font-family: "ComphorPro";
+    src: url("../../font/CamphorPro-Regular.otf");
+}
+
+@font-face {
+    font-family: "ComphorPro Heavy";
+    src: url("../../font/CamphorPro-Heavy.otf");
+}
+
+@font-face {
+    font-family: "ComphorPro Light";
+    src: url("../../font/CamphorPro-Light.otf");
+}
+
+html, body, nav, ul
+{
+    border:0;
+    margin:0;
+    padding: 0;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+*
+{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body
+{
+    font-family: ComphorPro;
+    letter-spacing: 1px;
+}
+
+h1
+{
+    font-family: "ComphorPro Heavy";
+}
+
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: white;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #FBF8E9;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #FBF8E9;
+}
+
+
+nav
+{
+    width: 100%;
+    background: #FBF8E9;
+    z-index:1000;
+    height: 60px;
+    min-height: 60px;
+}
+
+#menu
+{
+    display: block;
+    margin: auto;
+    width: 100%;
+    max-width: 800px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#menu li
+{
+    display: inline-block;
+    width: 18%;
+    text-align: center;
+}
+
+#menu a
+{
+    text-decoration: none;
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.7em;
+}
+
+#menu a:hover
+{
+    cursor: pointer;
+    color: #298DE0;
+}
+
+#burger
+{
+    display: none;
+    cursor: pointer;
+    margin: 0 20px;
+}
+
+@media all and (max-width: 800px) {
+
+    #menu {
+        /*display: none;*/
+        top: 100%;
+        margin-top: 120px;
+    }
+
+    nav {
+        height: 100%;
+    }
+
+    #menu li {
+        width: 100%;
+        margin: 7px auto;
+    }
+
+    #burger {
+        display: inline-block;
+    }
+
+    .none {
+        display: none !important;
+    }
+}
+
+/*-////////////////*/
+
+#head-img
+{
+    width: 100%;
+    height: 200px;
+    background-color: #f0e5db
+}
+
+#offer_details
+{
+    margin:50px 100px;
+    width: 50%;
+}
+
+#title
+{
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+#location
+{
+    font-size: 11px;
+    color: #8C8C8C;
+    text-transform: uppercase;
+}
+
+#list_plus_info_section li
+{
+    display: inline-block;
+    text-align: center;
+    margin: 0 20px;
+    width:100px;
+    vertical-align: middle;
+}
+
+hr
+{
+    margin: 30px 0;
+}
+
+#description_title
+{
+    margin-bottom: 20px;
+}
+
+#description
+{
+    text-align: justify;
+}
+
+#map
+{
+    width: 100%;
+    height: 300px;
+    background: black;
+    margin-top:30px;
+}
+

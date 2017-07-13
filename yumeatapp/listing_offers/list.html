@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"¨>
+    <head>
+        <meta charset="UTF-8">
+        <title>Liste des offres test</title>
+        <link rel="stylesheet" href="css/list.css">
+    </head>
+    <body>
+        <nav>
+            <span id="burger"><img src="../media/menu.png" alt="burger"></span>
+            <ul id="menu" class="none">
+                <li><a href="#">Explorer</a></li>
+                <li><a href="#">Our guides</a></li>
+                <li><img src="media/logo_yumeat.png" style="width: 50px ; vertical-align: middle;"  alt=""></li>
+                <li><a href="#" >Register</a></li>
+                <li><a href="#" >Become an host</a></li>
+            </ul>
+        </nav>
+
+        <div id="container">
+            <div id="input_fields">
+                <input v-model.lazy="city" type="text" id="search" @keydown.enter="search" placeholder="Search by city">
+                <input type="checkbox" id="sleep" @click="checkSleep"><label for="sleep">Sleep</label>
+            </div>
+
+
+            <div id="list-container" style="height: 100px;">
+                <ul id="list">
+                    <div v-if="!isCheckedSleep">
+                        <li class="item" v-for="item in offres" :id='item.key' v-if=" city == ''">
+                            <span v-for="u in users" v-if="item.host == u.uid" class="bienvenu"> Welcome to {{ u.modifiable.name }} </span><br>
+                            <span class="plat"> {{ item.title }}</span><br>
+                            <!--<span class="description"> {{ item.description }}</span><br>-->
+                            <a @click="click" role="button" class="details"> Consult the offer</a>
+                            <a v-if="item.sleep == true" role="button" class="sleep_indicator">It's ok to sleep here</a>
+                        </li>
+
+                        <li class="item" v-for="item in offres" :id='item.key' v-if=" item.location.city == searchResult">
+                            <span v-for="u in users" v-if="item.host == u.uid" class="bienvenu"> Welcome to {{ u.modifiable.name }} </span><br>
+                            <span class="plat"> {{ item.title }}</span><br>
+                            <!--<span class="description"> {{ item.description }}</span>-->
+                            <a @click="click"  role="button" class="details"> Consult the offer</a>
+                            <a v-if="item.sleep == true" role="button" class="sleep_indicator">It's ok to sleep here</a>
+                        </li>
+                    </div>
+
+                    <div v-if="isCheckedSleep">
+                        <li class="item" v-for="item in offres" :id='item.key' v-if=" city == '' && item.sleep == true">
+                            <span v-for="u in users" v-if="item.host == u.uid" class="bienvenu"> Welcome to {{ u.modifiable.name }} </span><br>
+                            <span class="plat"> {{ item.title }}</span><br>
+                            <!--<span class="description"> {{ item.description }}</span><br>-->
+                            <a @click="click"  role="button" class="details"> Consult the offer</a>
+                            <a v-if="item.sleep == true" role="button" class="sleep_indicator">It's ok to sleep here</a>
+                        </li>
+
+                        <li class="item" v-for="item in offres" :id='item.key' v-if=" item.location.city == searchResult && item.sleep == true">
+                            <span v-for="u in users" v-if="item.host == u.uid" class="bienvenu"> Welcome to {{ u.modifiable.name }} </span><br>
+                            <span class="plat"> {{ item.title }}</span><br>
+                            <!--<span class="description"> {{ item.description }}</span>-->
+                            <a @click="click"  role="button" class="details"> Consult the offer</a>
+                            <a v-if="item.sleep == true" role="button" class="sleep_indicator">It's ok to sleep here</a>
+                        </li>
+                    </div>
+                </ul>
+
+                <div id="map"></div>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vuefire/1.4.3/vuefire.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs9neX4czAETttBlpttBHzUdfE4lBLVqM&libraries=places&language=en"></script>
+        <script src="js/list.js"></script>
+    </body>
+</html>

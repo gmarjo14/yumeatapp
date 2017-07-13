@@ -1,0 +1,231 @@
+@font-face {
+    font-family: "ComphorPro";
+    src: url("../../font/CamphorPro-Regular.otf");
+}
+
+@font-face {
+    font-family: "ComphorPro Heavy";
+    src: url("../../font/CamphorPro-Heavy.otf");
+}
+
+@font-face {
+    font-family: "ComphorPro Light";
+    src: url("../../font/CamphorPro-Light.otf");
+}
+
+html, body, nav, ul
+{
+    border:0;
+    margin:0;
+    padding: 0;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+*
+{
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body
+{
+    font-family: ComphorPro;
+    letter-spacing: 1px;
+}
+
+h1
+{
+    font-family: "ComphorPro Heavy";
+}
+
+.bienvenu {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.plat {
+    font-size: 13px;
+    color: grey;
+}
+
+.description {
+    font-size: 13px;
+    overflow: hidden;
+    max-height: 60px;
+}
+
+.item {
+    height: 150px;
+    padding: 30px;
+    border-bottom: 1px solid grey;
+}
+
+#list{
+    overflow: scroll;
+    width: 30%;
+    height: 80vh;
+    background-color: white;
+    position: absolute;
+    margin: 0;
+    box-shadow: 0px 30px 60px -5px #000;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: white;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #FBF8E9;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #FBF8E9;
+}
+
+#input_fields
+{
+    height: 50px;
+    width:100%;
+}
+
+#search
+{
+    width: 90%;
+    height: 100%;
+    font-size: 12px;
+    text-transform: uppercase;
+    padding: 0 30px;
+}
+
+
+nav
+{
+    width: 100%;
+    background: #FBF8E9;
+    z-index:1000;
+    height: 60px;
+    min-height: 60px;
+}
+
+#menu
+{
+    display: block;
+    margin: auto;
+    width: 100%;
+    max-width: 800px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#menu li
+{
+    display: inline-block;
+    width: 18%;
+    text-align: center;
+}
+
+#menu a
+{
+    text-decoration: none;
+    color: #000;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.7em;
+}
+
+#menu a:hover
+{
+    cursor: pointer;
+    color: #298DE0;
+}
+
+#burger
+{
+    display: none;
+    cursor: pointer;
+    margin: 0 20px;
+}
+
+@media all and (max-width: 800px) {
+
+    #menu {
+        /*display: none;*/
+        top: 100%;
+        margin-top: 120px;
+    }
+
+    nav {
+        height: 100%;
+    }
+
+    #menu li {
+        width: 100%;
+        margin: 7px auto;
+    }
+
+    #burger {
+        display: inline-block;
+    }
+
+    .none {
+        display: none !important;
+    }
+}
+
+#map
+{
+    width: 70%;
+    height: 80vh;
+    float: right;
+}
+
+
+.details, .sleep_indicator
+{
+    width: 150px;
+    display: block;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    padding: 5px;
+    font-size: 11px;
+    color: #ffffff;
+    background:#E88642;
+    border-radius: 4px;
+    margin-top:5px;
+}
+
+.sleep_indicator
+{
+    background-color: #1ECD97;
+}
+
+#error_geoloc
+{
+    position: relative;
+    text-align: center;
+    top:50%;
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+

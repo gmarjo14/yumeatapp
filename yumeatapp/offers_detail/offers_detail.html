@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <link rel="stylesheet" href="css/offers_detail.css">
+    </head>
+    <body>
+        <nav>
+            <span id="burger"><img src="../media/menu.png" alt="burger"></span>
+            <ul id="menu" class="none">
+                <li><a href="#">Explorer</a></li>
+                <li><a href="#">Our guides</a></li>
+                <li><img src="media/logo_yumeat.png" style="width: 50px ; vertical-align: middle;"  alt=""></li>
+                <li><a href="#" >Register</a></li>
+                <li><a href="#" >Become an host</a></li>
+            </ul>
+        </nav>
+        <div id="container">
+            <div id="head-img"></div>
+
+            <div id="offer_details" v-for="item in offres" v-if="item.key == offerID">
+                <div id="first_information_section">
+                    <h1 id="title"> {{ item.title }} </h1>
+                    <p v-for="u in users" v-if="item.host == u.uid">with {{ u.modifiable.name }}</p>
+                    <p id="location"> {{ item.location.city }}</p>
+                </div>
+
+                <hr>
+
+                <div id="plus_information_section">
+                    <ul id="list_plus_info_section">
+                        <li>
+                            <p>Reservations made</p>
+                            <span v-if=" item.guests == 'undefined' "> 0/{{item.num_people}}</span>
+                            <span v-else> {{ item.guests }}/{{item.num_people}}</span>
+                        </li>
+                        <li>
+                            <span v-if=" item.sleep "> It's ok to sleep here </span>
+                            <span v-else> No place to sleep </span>
+                        </li>
+                        <li>
+                            <span> Easily contactable </span>
+                        </li>
+                    </ul>
+                </div>
+
+                <hr>
+
+                <div id="detail_information_section">
+                    <h3 id="description_title">More about your YumSession</h3>
+                    <p id="description"> {{ item.description }}</p>
+                </div>
+            </div>
+
+            <div id="user_details">
+
+            </div>
+
+            <div id="map">
+
+            </div>
+        </div>
+
+
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vuefire/1.4.3/vuefire.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs9neX4czAETttBlpttBHzUdfE4lBLVqM&libraries=places&language=en"></script>
+        <script src="js/offers_detail.js"></script>
+    </body>
+</html>
