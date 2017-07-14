@@ -19,50 +19,25 @@
 
         <div id="container">
             <div id="input_fields">
-                <input v-model.lazy="city" type="text" id="search" @keydown.enter="search" placeholder="Search by city">
-                <input type="checkbox" id="sleep" @click="checkSleep"><label for="sleep">Sleep</label>
+                <input type="text" id="search" @keydown.enter="search" placeholder="Search by city">
+                <span v-on:click="search">
+                    <input type="checkbox" id="sleep" v-model="sleepChecked"><label for="sleep">Sleep </label>
+                </span>
             </div>
 
 
             <div id="list-container" style="height: 100px;">
                 <ul id="list">
-                    <div v-if="!isCheckedSleep">
-                        <li class="item" v-for="item in offres" :id='item.key' v-if=" city == ''">
-                            <span v-for="u in users" v-if="item.host == u.uid" class="bienvenu"> Welcome to {{ u.modifiable.name }} </span><br>
-                            <span class="plat"> {{ item.title }}</span><br>
-                            <!--<span class="description"> {{ item.description }}</span><br>-->
-                            <a @click="click" role="button" class="details"> Consult the offer</a>
-                            <a v-if="item.sleep == true" role="button" class="sleep_indicator">It's ok to sleep here</a>
-                        </li>
-
-                        <li class="item" v-for="item in offres" :id='item.key' v-if=" item.location.city == searchResult">
-                            <span v-for="u in users" v-if="item.host == u.uid" class="bienvenu"> Welcome to {{ u.modifiable.name }} </span><br>
-                            <span class="plat"> {{ item.title }}</span><br>
-                            <!--<span class="description"> {{ item.description }}</span>-->
-                            <a @click="click"  role="button" class="details"> Consult the offer</a>
-                            <a v-if="item.sleep == true" role="button" class="sleep_indicator">It's ok to sleep here</a>
-                        </li>
-                    </div>
-
-                    <div v-if="isCheckedSleep">
-                        <li class="item" v-for="item in offres" :id='item.key' v-if=" city == '' && item.sleep == true">
-                            <span v-for="u in users" v-if="item.host == u.uid" class="bienvenu"> Welcome to {{ u.modifiable.name }} </span><br>
-                            <span class="plat"> {{ item.title }}</span><br>
-                            <!--<span class="description"> {{ item.description }}</span><br>-->
-                            <a @click="click"  role="button" class="details"> Consult the offer</a>
-                            <a v-if="item.sleep == true" role="button" class="sleep_indicator">It's ok to sleep here</a>
-                        </li>
-
-                        <li class="item" v-for="item in offres" :id='item.key' v-if=" item.location.city == searchResult && item.sleep == true">
-                            <span v-for="u in users" v-if="item.host == u.uid" class="bienvenu"> Welcome to {{ u.modifiable.name }} </span><br>
-                            <span class="plat"> {{ item.title }}</span><br>
-                            <!--<span class="description"> {{ item.description }}</span>-->
-                            <a @click="click"  role="button" class="details"> Consult the offer</a>
-                            <a v-if="item.sleep == true" role="button" class="sleep_indicator">It's ok to sleep here</a>
-                        </li>
-                    </div>
+                    <li class="item" v-for="item in offres" :id='item.key' v-if="item.sleep == sleepChecked">
+                        <span v-for="u in users" v-if="item.host == u.uid" class="bienvenu"> Welcome to {{ u.modifiable.name }} </span><br>
+                        <span class="plat"> {{ item.title }}</span><br>
+                        <!--<span class="description"> {{ item.description }}</span><br>-->
+                        <a v-bind:href="url(item)" role="button" class="details">
+                            Consult the offer
+                        </a>
+                        <a v-if="item.sleep == true" role="button" class="sleep_indicator">It's ok to sleep here</a>
+                    </li>
                 </ul>
-
                 <div id="map"></div>
             </div>
         </div>
