@@ -1,5 +1,5 @@
-$(document).ready(function(){
-    var config = {
+(function ($) {
+    const config = {
         apiKey: "AIzaSyBx5UUhgfcRXXd_NDy_8cgbs5hzKXWILNQ",
         authDomain: "yumeat-98b45.firebaseapp.com",
         databaseURL: "https://yumeat-98b45.firebaseio.com",
@@ -8,141 +8,142 @@ $(document).ready(function(){
         messagingSenderId: "773340535737"
     };
 
-    firebase.initializeApp(config);
+    const yumeatdb = (firebase.initializeApp(config)).database();
 
-    let offres = firebase.database().ref('offres');
-    let users = firebase.database().ref('users/');
-
-    new Vue({
-        el: "#container",
-        firebase: {
-            offres: offres,
-            users : users
-        }
-        ,
-        data:{
-            city : '',
-            searchResult:'',
-            isCheckedSleep : false,
-        },
-        methods:{
-            search : function () {
-                var searchRequest = $("#search").val();
-                var true_searchRequest = searchRequest.split(',');
-                true_searchRequest  = true_searchRequest[0].toLowerCase();
-                this.searchResult = true_searchRequest;
-                console.log(true_searchRequest);
-            },
-
-            checkSleep : function(){
-                if($("#sleep").is(':checked')){
-                    this.isCheckedSleep = true;
-                    console.log(this.isCheckedSleep);
-                }
-                else{
-                    this.isCheckedSleep = false;
-                    console.log(this.isCheckedSleep);
+    let offersVue = new Vue({
+            el: "#container",
+            firebase: function () {
+                return {
+                    offres: yumeatdb.ref('offres'),
+                    users: yumeatdb.ref('users')
                 }
             },
-            click: function () {
-                $(".details").on('click',function () {
-                    window.location = "../offers_detail/offers_detail.html?" + $(this).parent().attr('id');
-                });
+            data: {
+                cityKeyword: '',
+                sleepChecked: false,
+
+            },
+
+            mounted: function () {
+            },
+
+            methods: {
+                search: function () {
+                    let searchRequest = $("#search").val();
+                    let true_searchRequest = searchRequest.split(',');
+                    true_searchRequest = true_searchRequest[0].toLowerCase();
+                    this.cityKeyword = true_searchRequest;
+                    console.log(this.cityKeyword);
+
+                    // ici tu filtres directement en fct de ta recherche
+                    // el l'occurence le mieux c'est d'abord de filtrer par ville et ensuite le sleep en js
+                    if (this.cityKeyword != "") {
+                        this.$bindAsArray('offres', yumeatdb.ref('offres').orderByChild('city').equalTo(this.cityKeyword));
+                    } else {
+                        this.$bindAsArray('offres', yumeatdb.ref('offres'));
+                    }
+                    showOffers();
+                },
+                url: function (item) {
+                    console.log(item);
+                    return '../offers_detail/offers_detail.html?' + item.key
+                },
+                click: function (e) {
+                    console.log(e);
+                    //window.location = "../offers_detail/offers_detail.html?" + $(this).parent().attr('id');
+                }
             }
-        },
-        mounted() {
-            console.log('mounted');
+
+        })
+        ;
+
+    let map;
+    let circles = [];
+
+    // init geoloc
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(initMap, showError);
+        } else {
+            alert("Geolocation is not supported by this browser.");
         }
-    });
+    }
 
-    let lat;
-    let lng;
-
-    function initMap(lat, lng, markers) {
-        var map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: lat, lng: lng},
+    // init map si geoloc
+    function initMap(position) {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: position.coords.latitude, lng: position.coords.longitude},
             zoom: 13,
             mapTypeId: 'roadmap'
         });
 
-        var input = document.getElementById('search');
-        var autocomplete = new google.maps.places.Autocomplete(input,{types: ['(cities)']});
-        google.maps.event.addListener(autocomplete, 'place_changed', function(){
+        //autocomplete
+        let input = document.getElementById('search');
+        let autocomplete = new google.maps.places.Autocomplete(input, {types: ['(cities)']});
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
             var place = autocomplete.getPlace();
+            console.log(place);
 
             if (!place.geometry) {
                 console.log("Autocomplete's returned place contains no geometry");
                 return;
             }
+            offersVue.search();
 
-            if (place.geometry.viewport) {
-                map.fitBounds(place.geometry.viewport);
-            } else {
-                map.setCenter(place.geometry.location);
-                map.setZoom(13);
-            }
         });
 
-        for( var i = 0; i < markers.length; i++){
-            var circle = {
-                strokeColor: '#FF0000',
+    }
+
+
+    function showOffers() {
+        /*
+         map.setCenter(position);
+         map.setZoom(12);
+         */
+        let offres = offersVue.offres;
+
+        console.log(offres);
+        let markers = [];
+        let bounds = new google.maps.LatLngBounds();
+
+        // cirlces cleanup
+        for (let i = 0; i < circles.length; i++) {
+            circles[i].setMap(null);
+        }
+        circles = [];
+
+        // create based on offers
+        for (offre of offres) {
+            console.log(offre);
+            let tab = {
+                lat: offre.location.lat,
+                lng: offre.location.lng
+            }
+            bounds.extend(tab);
+
+            markers.push(tab);
+            //circles add
+            let circle = {
+                strokeColor: ((offre.sleep) ? '#1ECD97' : '#FF0000'),
                 strokeOpacity: 0.8,
                 strokeWeight: 2,
-                fillColor: '#FF0000',
+                fillColor: ((offre.sleep) ? '#1ECD97' : '#FF0000'),
                 fillOpacity: 0.35,
                 map: map,
-                center: markers[i],
+                center: tab,
                 radius: 500
             };
-            var circleInfo = new google.maps.Circle(circle);
-            createClickableCircle(map, circleInfo);
+            circles.push(new google.maps.Circle(circle));
         }
+        map.fitBounds(bounds);
+        console.log(markers);
+
+
     }
 
-    function createClickableCircle(map, circle){
-        var infowindow =new google.maps.InfoWindow({
-            content: "test"
-        });
-        google.maps.event.addListener(circle, 'click', function() {
-            infowindow.setPosition(circle.getCenter());
-            infowindow.open(map);
-        });
-    }
-
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition,showError);
-        } else {
-            alert("Geolocation is not supported by this browser.");
-        }
-    }
-    function showPosition(position) {
-        console.log(position.coords.latitude + " / "+ position.coords.longitude);
-        lat = position.coords.latitude;
-        lng = position.coords.longitude;
-
-        function initialiseMarkers(offres){
-            offres.on('value',function(snap){
-                let markers = [];
-                for( let i in snap.val() ){
-                    let tab = {
-                        lat: snap.val()[i].location.lat,
-                        lng: snap.val()[i].location.lng
-                    }
-                    console.log(tab);
-                    markers.push(tab);
-                }
-
-                console.log(markers);
-                initMap(lat,lng,markers);
-            })
-        }
-
-        initialiseMarkers(offres);
-    }
-
-    function showError(error){
-        switch(error.code) {
+    function showError(error) {
+        switch (error.code) {
             case error.PERMISSION_DENIED:
                 console.log("User denied the request for Geolocation.")
                 $('#map').html("<h1 id='error_geoloc'>For a better use of our application, please enable geolocation</h1>");
@@ -159,5 +160,18 @@ $(document).ready(function(){
         }
     }
 
+// TODO : ca c 'est caca
+    function createClickableCircle(map, circle) {
+        var infowindow = new google.maps.InfoWindow({
+            content: "test"
+        });
+        google.maps.event.addListener(circle, 'click', function () {
+            infowindow.setPosition(circle.getCenter());
+            infowindow.open(map);
+        });
+    }
+
+
+    // lancement geoloc
     getLocation();
-});
+})(jQuery);
