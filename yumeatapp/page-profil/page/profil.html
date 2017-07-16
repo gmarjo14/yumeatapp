@@ -1,0 +1,123 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Yum'Eat</title>
+    <link rel="icon" type="image/png" href="../media/Carotte-yumeat.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Yum’Eat offers to globe-trotter an immersive culinary experience in the inhabitant." />
+    <meta name="keywords" content="yummy, eat, backpackers, backpacker, trip, voyage, asia, asie, thailand, vietnam, cambodge, routeur">
+    <meta name="author" content="Horizon Studio" />
+    <meta name="copyright" content="© Yum'Eat" />
+    <meta property="og:url"           content="www.yum-eat.io/" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="Yum eat" />
+    <meta property="og:description"   content="Yum’Eat offers to globe-trotter an immersive culinary experience in the inhabitant." />
+    <meta property="og:image"         content="http://www.yum-eat.io/public-img/logo_yumeat.png"/>
+    <meta property="og:image:width"   content="150" />
+    <meta property="og:image:height"  content="150" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@Yumeat_app">
+    <meta name="twitter:title" content="Yum eat">
+    <meta name="twitter:description" content="Yum’Eat offers to globe-trotter an immersive culinary experience in the inhabitant.">
+    <meta name="twitter:image" content="http://www.yum-eat.io/public-img/logo_yumeat.png">
+    <link rel="stylesheet" href="../css/main.css">
+	<!-- Vue -->
+</head>
+<body>
+	<header>
+		<nav>
+			<span id="burger"><img src="../media/menu.png" alt="burger"></span>
+			<ul id="menu" class="none">
+				<li><a href="#">Explorer</a></li>
+				<li><a href="#">Our guides</a></li>
+				<li><img src="../media/logo_yumeat.png" style="width: 50px ; vertical-align: middle;"  alt=""></li>
+				<li><a href="#" >Register</a></li>
+				<li><a href="#" >Become an host</a></li>
+			</ul>
+		</nav>
+	    <div class="topimg">
+			<img src="../media/background.jpg" alt="">
+		</div>
+	</header>
+	<div id="app">
+	<section v-for="o in offres" v-if="o.key == '-KohFbFE99H7Zyn2cHOM'">
+		<div class="container-offer" v-for="u in users" v-if="o.host == u.uid">
+			<div class="main-content">
+				<div class="main-content-top">
+					<ul>
+						<li>
+							<div class="main-content-top-pp">
+								<img src="../media/local-1.png" alt="">
+							</div>
+						</li>
+						<li>
+							<button class="cta-confirmed"><img src="../media/confirmed.png" alt=""><p>CONFIRMED</p></button>
+						</li>
+						<li>
+							<button class="cta-rate"><p>{{ u.note }}/10</p></button>
+						</li>
+					</ul>
+				</div>
+				<ul class="main-content-menu">
+					<li><a href="#main-content-about">DETAILS</a></li>
+					<li><a href="#main-content-opinion">REVIEWS</a></li>
+				</ul>
+				<hr>
+				<div class="main-content-about" id="main-content-about">
+					<h1>About this host :</h1>
+					<p>{{ u.modifiable.description }}</p><br>
+					</div>
+				<div class="main-content-opinion" id="main-content-opinion">
+					<h3>backpackers review :</h3>
+					<hr>
+					<div>
+						<div>
+							<img src="" alt="">
+							<h5>Jackson</h5>
+							<p>avril 2017</p>
+						</div>
+						<div>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque dicta dignissimos dolor enim error ipsa laboriosam magni maxime nihil, nisi numquam obcaecati porro quibusdam quisquam quo sunt suscipit? Amet, delectus?</p>
+						</div>
+						<hr>
+						<div>
+							<img src="" alt="">
+							<h5>Julian</h5>
+							<p>avril 2017</p>
+						</div>
+						<div>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque dicta dignissimos dolor enim error ipsa laboriosam magni maxime nihil, nisi numquam obcaecati porro quibusdam quisquam quo sunt suscipit? Amet, delectus?</p>
+						</div>
+					</div>
+				</div>
+				<div class="main-content-comment">
+					<h3>Ecrire un commentaire :</h3>
+					<hr>
+					<div class="main-content-rateandwrite">
+						<p for="comment">Rate your host :</p>
+						<input type="text" id="comment">
+					</div>
+				</div>
+			</div>
+			<div class="side-content">
+				<div class="header-side-content">
+					<div class="header-side-content-block">
+						<p>DISPONIBILITE</p>
+						<div class="header-side-content-date"><p>JEUDI 15 MARS</p><img src="../media/map_active.png" alt=""></div>
+					</div>
+				</div>
+				<div class="body-side-content">
+
+				</div>
+			</div>
+		</div>
+	</section>
+	</div>
+	<footer></footer>
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vuefire/1.4.3/vuefire.js"></script>
+	<script src="../js/appvue.js"></script>
+</body>
+</html>
