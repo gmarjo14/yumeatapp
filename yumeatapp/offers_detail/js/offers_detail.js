@@ -1,8 +1,10 @@
-$(document).ready(function () {
+(function ($) {
     var s = window.location.href.split('?');
     var offerId = s[1];
 
-    var config = {
+    let userId;
+
+    const config = {
         apiKey: "AIzaSyBx5UUhgfcRXXd_NDy_8cgbs5hzKXWILNQ",
         authDomain: "yumeat-98b45.firebaseapp.com",
         databaseURL: "https://yumeat-98b45.firebaseio.com",
@@ -11,48 +13,139 @@ $(document).ready(function () {
         messagingSenderId: "773340535737"
     };
 
-    firebase.initializeApp(config);
+    const yumeatdb = (firebase.initializeApp(config)).database();
 
-    let offres = firebase.database().ref('offres');
-    let users = firebase.database().ref('users/');
+    let offres = yumeatdb.ref('offres');
 
-    new Vue({
+    function length(){
+        yumeatdb.ref('offres/'+offerId+'/guests').on('value',function (snap) {
+            if(snap.val() == 'undefined'){
+                detailsVue.guestsLength = '0';
+            }
+            else
+                detailsVue.guestsLength = ''+snap.val().length;
+        });
+    }
+
+    length();
+
+    let detailsVue = new Vue({
         el: "#container",
-        firebase: {
-            offres: offres,
-            users: users
+        firebase: function () {
+            return {
+                offres: yumeatdb.ref('offres'),
+                users: yumeatdb.ref('users')
+            }
         },
         data: {
-            offerID: offerId
+            offerID: offerId,
+            guestsLength : ""
+        },
+        beforeMount: function(){
+            this.$bindAsArray('offres', yumeatdb.ref('offres').orderByChild('key').equalTo(this.offerID));
+        },
+        updated:function () {
+            firebase.auth().onAuthStateChanged(function(user) {
+                if(user){
+                    userId = firebase.auth().currentUser.uid;
+                    // detailsVue.isUser();
+                    // console.log('lol');
+                    let newBtn = $("#res_container");
+                    let btn = "<a role='button' id='btn-res' class='informormation_list'>Make your reservation</a>"
+                    newBtn.html(btn);
+                }
+                else
+                    console.log('no user');
+            });
+        },
+        methods:{
+            makeReservation : function () {
+                console.log(this.guestsLength);
+                let num_guests = this.guestsLength;
+                swal({
+                        title: "Are you sur?",
+                        text: "You are about to reserve this offer",
+                        showCancelButton: true,
+                        confirmButtonColor: "#1ECD97",
+                        confirmButtonText: "Yes, I want to book",
+                        cancelButtonText: "No, I want to cancel",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function(isConfirm){
+                        if (isConfirm) {
+                            let thisOffre = yumeatdb.ref('offres/'+offerId);
+                            thisOffre.on('value',function (snap) {
+                                let guests = snap.val().guests;
+                                let num_max = snap.val().num_people;
+
+                                if(guests.indexOf(userId) == -1){
+                                    console.log(num_guests);
+                                    if( parseInt(num_guests) <= num_max){
+                                        if(guests == 'undefined'){
+                                            var tab = [];
+                                            tab.push(userId);
+                                            thisOffre.update({
+                                                guests:tab
+                                            });
+                                        }
+                                        swal({
+                                            title:"Confirmed !",
+                                            text:"You have booked successfully <br> An email will be sent to you with all necessary information. <br> Thank you.",
+                                            type:"success",
+                                            confirmButtonColor: "#1ECD97",
+                                            html:true
+                                        });
+                                    }
+                                    else{
+                                        swal({
+                                            title:"Error !",
+                                            text:"The offer has reached the maximum number of reservations",
+                                            type:"error",
+                                            confirmButtonColor: "#C70039",
+                                            html:true
+                                        });
+                                    }
+                                }
+                                else{
+                                    swal({
+                                        title:"Error !",
+                                        text:"You have already booked ",
+                                        type:"error",
+                                        confirmButtonColor: "#C70039",
+                                        html:true
+                                    });
+                                }
+                            });
+                        } else {
+                            swal("Cancelled", "Please, take your time", "error");
+                        }
+                    });
+            }
         }
     });
 
-    console.log(offres)
 
     offres.on('value', function (snap) {
         let marker = [];
         for (let i in snap.val()) {
             if (snap.val()[i].key == offerId) {
-                console.log('found');
                 let tab = {
                     lat: snap.val()[i].location.lat,
                     lng: snap.val()[i].location.lng
                 }
-                console.log(tab);
                 marker.push(tab);
-                console.log(snap.val()[i].key)
-                console.log(marker);
                 initMap(marker);
                 return;
             }
         }
     });
 
+
     function initMap(marker) {
         var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 14,
+            zoom: 16,
             center: {lat: marker[0].lat, lng: marker[0].lng},
-            mapTypeId: 'terrain'
         });
 
         var cityCircle = new google.maps.Circle({
@@ -63,16 +156,9 @@ $(document).ready(function () {
             fillOpacity: 0.35,
             map: map,
             center: marker[0],
-            radius: 500
+            radius: 200
         });
 
         map.setOptions({scrollwheel: false});
     }
-
-    firebase.auth().onAuthStateChanged(function(user) {
-        if(user){
-
-        }
-    });
-
-})
+})(jQuery);

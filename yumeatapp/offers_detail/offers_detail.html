@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>Title</title>
         <link rel="stylesheet" href="css/offers_detail.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
     </head>
     <body>
         <nav>
@@ -19,7 +20,7 @@
         <div id="container">
             <div id="head-img"></div>
 
-            <div id="offer_details" v-for="item in offres" v-if="item.key == offerID">
+            <div id="offer_details" v-for="item in offres">
                 <div id="first_information_section">
                     <h1 id="title"> {{ item.title }} </h1>
                     <p v-for="u in users" v-if="item.host == u.uid">with {{ u.modifiable.name }}</p>
@@ -31,16 +32,18 @@
                 <div id="plus_information_section">
                     <ul id="list_plus_info_section">
                         <li>
-                            <p>Reservations made</p>
-                            <span v-if=" item.guests == 'undefined' "> 0/{{item.num_people}}</span>
-                            <span v-else> {{ item.guests }}/{{item.num_people}}</span>
+                            <!--<span v-if=" item.guests == 'undefined' " class="informormation_list">  {{ guestsLength }} /{{item.num_people}}</span>-->
+                            <span class="informormation_list" id="guests_number"> {{ guestsLength }}/{{item.num_people}}</span>
                         </li>
                         <li>
-                            <span v-if=" item.sleep "> It's ok to sleep here </span>
-                            <span v-else> No place to sleep </span>
+                            <span v-if="item.sleep " id="sleepOK" class="informormation_list"> It's ok to sleep here </span>
+                            <span v-else id="sleepNOT" class="informormation_list"> No place to sleep </span>
                         </li>
                         <li>
-                            <span> Easily contactable </span>
+                            <span class="informormation_list"> {{ item.dates.date}} / {{ item.dates.hour }} </span>
+                        </li>
+                        <li id="res_container" v-on:click='makeReservation'>
+
                         </li>
                     </ul>
                 </div>
@@ -68,6 +71,7 @@
         <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/vuefire/1.4.3/vuefire.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs9neX4czAETttBlpttBHzUdfE4lBLVqM&libraries=places&language=en"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert-dev.js"></script>
         <script src="js/offers_detail.js"></script>
     </body>
 </html>

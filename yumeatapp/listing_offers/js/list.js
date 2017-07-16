@@ -33,7 +33,7 @@
                     let true_searchRequest = searchRequest.split(',');
                     true_searchRequest = true_searchRequest[0].toLowerCase();
                     this.cityKeyword = true_searchRequest;
-                    console.log(this.cityKeyword);
+                    // console.log(this.cityKeyword);
 
                     // ici tu filtres directement en fct de ta recherche
                     // el l'occurence le mieux c'est d'abord de filtrer par ville et ensuite le sleep en js
@@ -45,18 +45,16 @@
                     showOffers();
                 },
                 url: function (item) {
-                    console.log(item);
+                    // console.log(item);
                     return '../offers_detail/offers_detail.html?' + item.key
-                },
-                click: function (e) {
-                    console.log(e);
-                    //window.location = "../offers_detail/offers_detail.html?" + $(this).parent().attr('id');
                 }
             }
 
-        })
-        ;
+        });
 
+    // console.log(this.offres)
+
+    let position;
     let map;
     let circles = [];
 
@@ -71,6 +69,7 @@
 
     // init map si geoloc
     function initMap(position) {
+        position = position;
         map = new google.maps.Map(document.getElementById('map'), {
             center: {lat: position.coords.latitude, lng: position.coords.longitude},
             zoom: 13,
@@ -83,27 +82,23 @@
 
         google.maps.event.addListener(autocomplete, 'place_changed', function () {
             var place = autocomplete.getPlace();
-            console.log(place);
+            // console.log(place);
 
             if (!place.geometry) {
                 console.log("Autocomplete's returned place contains no geometry");
                 return;
             }
             offersVue.search();
-
         });
 
     }
 
 
     function showOffers() {
-        /*
-         map.setCenter(position);
-         map.setZoom(12);
-         */
+
         let offres = offersVue.offres;
 
-        console.log(offres);
+        // console.log(offres);
         let markers = [];
         let bounds = new google.maps.LatLngBounds();
 
@@ -115,7 +110,7 @@
 
         // create based on offers
         for (offre of offres) {
-            console.log(offre);
+            // console.log(offre);
             let tab = {
                 lat: offre.location.lat,
                 lng: offre.location.lng
@@ -125,21 +120,20 @@
             markers.push(tab);
             //circles add
             let circle = {
-                strokeColor: ((offre.sleep) ? '#1ECD97' : '#FF0000'),
+                strokeColor: ((offre.sleep) ? '#59A9FD' : '#FF0000'),
                 strokeOpacity: 0.8,
                 strokeWeight: 2,
-                fillColor: ((offre.sleep) ? '#1ECD97' : '#FF0000'),
+                fillColor: ((offre.sleep) ? '#59A9FD' : '#FF0000'),
                 fillOpacity: 0.35,
                 map: map,
                 center: tab,
-                radius: 500
+                radius: 300
             };
             circles.push(new google.maps.Circle(circle));
         }
+        map.setZoom(3);
         map.fitBounds(bounds);
-        console.log(markers);
-
-
+        // console.log(markers);
     }
 
     function showError(error) {
@@ -161,15 +155,15 @@
     }
 
 // TODO : ca c 'est caca
-    function createClickableCircle(map, circle) {
-        var infowindow = new google.maps.InfoWindow({
-            content: "test"
-        });
-        google.maps.event.addListener(circle, 'click', function () {
-            infowindow.setPosition(circle.getCenter());
-            infowindow.open(map);
-        });
-    }
+//     function createClickableCircle(map, circle) {
+//         var infowindow = new google.maps.InfoWindow({
+//             content: "test"
+//         });
+//         google.maps.event.addListener(circle, 'click', function () {
+//             infowindow.setPosition(circle.getCenter());
+//             infowindow.open(map);
+//         });
+//     }
 
 
     // lancement geoloc

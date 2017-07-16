@@ -176,8 +176,53 @@ nav
     display: inline-block;
     text-align: center;
     margin: 0 20px;
-    width:100px;
     vertical-align: middle;
+}
+
+
+#btn-res
+{
+    border: 2px #E8972A solid;
+    background: #ffffff;
+    color: #E8972A;
+}
+
+#sleepOK
+{
+    border: 2px #1ECD97 solid;
+    background: #ffffff;
+    color: #1ECD97;
+}
+
+#sleepNOT
+{
+    border: 2px #C70039 solid;
+    background: #ffffff;
+    color: #C70039;
+}
+
+
+#guests_number
+{
+    border: 2px #BF59FD solid;
+    background: #ffffff;
+    color: #BF59FD;
+}
+.informormation_list
+{
+    font-size: 11px;
+    padding: 10px;
+    border-radius: 40px;
+    width: 150px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.25s ease;
+}
+
+#btn-res:hover
+{
+    color: #ffffff;
+    background: #E8972A;
 }
 
 hr
