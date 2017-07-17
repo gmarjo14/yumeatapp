@@ -55,16 +55,16 @@
                 </div>
             </div>
 
+            <div id="user_details" v-for="u in users" v-if="host_uid == u.uid">
+                <p>Son nom:{{ u.modifiable.name }}</p>
+                <p>Sa note : {{ u.note }}</p>
+                <!--Si il est certifié tu affiche un truc, sinon un autre truc -->
+                <p v-if="u.certification"> certification : certifié</p>
+                <p v-else> certification : Non certifié</p>
+                <p> Son role : {{ u.role }}</p>
 
-            <h3> info user </h3>
-            note : {{ host_info.note }} <br>
-            est il certifié : {{ host_info.certification}} <br>
-            son role : {{ host_info.role}} <br>
-            nom : {{ host_info.modifiable.name }} <br>
-
-
-            <div id="user_details">
-
+                <!--Lien qui va renvoyer vers son profil, juste laisse comme ça pour l'instant -->
+                <!--<a :id="u.uid">go voir</a>-->
             </div>
 
         </div>
