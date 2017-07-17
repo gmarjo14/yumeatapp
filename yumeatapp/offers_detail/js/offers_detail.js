@@ -42,7 +42,7 @@
             offerID: offerId,
             guestsLength : "",
             host_uid : '',
-            host_info:''
+            // host_info:''
         },
         beforeMount: function(){
             this.$bindAsArray('offres', yumeatdb.ref('offres').orderByChild('key').equalTo(this.offerID));
@@ -144,16 +144,16 @@
         }
     });
 
-    users.on('value',function (snap) {
-        console.log(snap.val());
-        for(let i in snap.val()){
-            if(snap.val()[i].uid == detailsVue.host_uid ){
-                detailsVue.host_info = snap.val()[i];
-                console.log('found');
-                console.log(detailsVue.host_info);
-            }
-        }
-    })
+    // users.on('value',function (snap) {
+    //     console.log(snap.val());
+    //     for(let i in snap.val()){
+    //         if(snap.val()[i].uid == detailsVue.host_uid ){
+    //             detailsVue.host_info = snap.val()[i];
+    //             console.log('found');
+    //             console.log(detailsVue.host_info);
+    //         }
+    //     }
+    // })
 
 
     function initMap(marker) {
