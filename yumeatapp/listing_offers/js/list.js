@@ -131,8 +131,10 @@
             };
             circles.push(new google.maps.Circle(circle));
         }
-        map.setZoom(3);
-        map.fitBounds(bounds);
+        if(markers !== 0){
+            map.setZoom(3);
+            map.fitBounds(bounds);
+        }
         // console.log(markers);
     }
 

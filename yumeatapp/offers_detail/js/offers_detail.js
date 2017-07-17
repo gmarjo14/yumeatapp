@@ -16,6 +16,7 @@
     const yumeatdb = (firebase.initializeApp(config)).database();
 
     let offres = yumeatdb.ref('offres');
+    let users = yumeatdb.ref('users');
 
     function length(){
         yumeatdb.ref('offres/'+offerId+'/guests').on('value',function (snap) {
@@ -34,12 +35,14 @@
         firebase: function () {
             return {
                 offres: yumeatdb.ref('offres'),
-                users: yumeatdb.ref('users')
+                users: yumeatdb.ref('users'),
             }
         },
         data: {
             offerID: offerId,
-            guestsLength : ""
+            guestsLength : "",
+            host_uid : '',
+            host_info:''
         },
         beforeMount: function(){
             this.$bindAsArray('offres', yumeatdb.ref('offres').orderByChild('key').equalTo(this.offerID));
@@ -125,7 +128,6 @@
         }
     });
 
-
     offres.on('value', function (snap) {
         let marker = [];
         for (let i in snap.val()) {
@@ -134,12 +136,24 @@
                     lat: snap.val()[i].location.lat,
                     lng: snap.val()[i].location.lng
                 }
+                detailsVue.host_uid = snap.val()[i].host;
                 marker.push(tab);
                 initMap(marker);
                 return;
             }
         }
     });
+
+    users.on('value',function (snap) {
+        console.log(snap.val());
+        for(let i in snap.val()){
+            if(snap.val()[i].uid == detailsVue.host_uid ){
+                detailsVue.host_info = snap.val()[i];
+                console.log('found');
+                console.log(detailsVue.host_info);
+            }
+        }
+    })
 
 
     function initMap(marker) {

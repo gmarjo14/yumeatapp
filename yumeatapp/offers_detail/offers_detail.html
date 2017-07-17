@@ -32,7 +32,6 @@
                 <div id="plus_information_section">
                     <ul id="list_plus_info_section">
                         <li>
-                            <!--<span v-if=" item.guests == 'undefined' " class="informormation_list">  {{ guestsLength }} /{{item.num_people}}</span>-->
                             <span class="informormation_list" id="guests_number"> {{ guestsLength }}/{{item.num_people}}</span>
                         </li>
                         <li>
@@ -56,13 +55,22 @@
                 </div>
             </div>
 
+
+            <h3> info user </h3>
+            note : {{ host_info.note }} <br>
+            est il certifié : {{ host_info.certification}} <br>
+            son role : {{ host_info.role}} <br>
+            nom : {{ host_info.modifiable.name }} <br>
+
+
             <div id="user_details">
 
             </div>
 
-            <div id="map">
+        </div>
 
-            </div>
+        <div id="map">
+
         </div>
 
 

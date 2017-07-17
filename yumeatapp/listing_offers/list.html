@@ -43,8 +43,9 @@
 
                     <div v-if="!sleepChecked">
                         <li class="item" v-for="item in offres" :id='item.key'>
-                            <span v-for="u in users" v-if="item.host == u.uid" class="bienvenu"> Welcome to {{ u.modifiable.name }} </span><br>
-                            <span class="plat"> {{ item.title }}</span><br>
+                            <span class="bienvenu"> {{ item.title }}</span><br>
+                            <span v-for="u in users" v-if="item.host == u.uid" class="plat"> with {{ u.modifiable.name }} </span><br>
+                            <span class="plat" style="text-transform: uppercase; font-size: 11px"> {{ item.city}} </span><br>
                             <!--<span class="description"> {{ item.description }}</span><br>-->
                             <a v-bind:href="url(item)" role="button" class="details">
                                 Consult the offer
